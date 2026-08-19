@@ -214,7 +214,7 @@ def dashboard():
         def send(self,code,body,ctype="application/json"):
             raw=body.encode(); self.send_response(code); self.send_header("Content-Type",ctype+"; charset=utf-8"); self.send_header("Content-Length",str(len(raw))); self.end_headers(); self.wfile.write(raw)
         def do_GET(self):
-            if self.path=="/": return self.send(200,(ROOT/"index.html").read_text(encoding="utf-8"),"text/html")
+            if self.path=="/": return self.send(200,(ROOT/"public"/"index.html").read_text(encoding="utf-8"),"text/html")
             if self.path=="/api/jobs":
                 db=connect(); body=json.dumps(rows(db),ensure_ascii=False); db.close(); return self.send(200,body)
             self.send(404,"{\"error\":\"not found\"}")
