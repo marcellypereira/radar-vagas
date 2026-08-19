@@ -61,6 +61,10 @@ def matches(job):
     # O cargo precisa declarar a especialidade. Menções isoladas a React/front-end
     # em uma descrição de back-end não tornam a vaga compatível.
     return False
+def brazil_eligible(job):
+    """Evita sugerir remoto global sem confirmação de que o Brasil é elegível."""
+    text = " ".join(str(job.get(k, "")) for k in ("location", "description", "requirements")).lower()
+    return any(term in text for term in ("brazil", "brasil", "são paulo", "sao paulo", "rio de janeiro", "belo horizonte", "curitiba", "recife", "porto alegre"))
 def technologies(text):
     low = text.lower(); found = []
     for term in SKILLS:
@@ -165,7 +169,7 @@ def run():
     result={}; new=0
     for name, getter in sources:
         try:
-            all_jobs=[j for j in getter() if matches(j)]; ids=set()
+            all_jobs=[j for j in getter() if matches(j) and brazil_eligible(j)]; ids=set()
             if ":" in name:
                 for j in all_jobs: j["source"] = name
             for j in all_jobs: ids.add(j["id"]); new += upsert(db,j,run_at)
