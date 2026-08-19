@@ -2,7 +2,7 @@
 """Radar de vagas: fontes públicas, histórico SQLite e dashboard local."""
 from __future__ import annotations
 
-import argparse, datetime as dt, hashlib, html, json, re, sqlite3, sys
+import argparse, datetime as dt, hashlib, html, json, os, re, sqlite3, sys
 from email.utils import parsedate_to_datetime
 from html.parser import HTMLParser
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -35,6 +35,10 @@ def iso_date(value):
         except (TypeError, ValueError): return None
 def fetch_json(url):
     req = Request(url, headers={"User-Agent": UA, "Accept": "application/json"})
+    with urlopen(req, timeout=25) as res: return json.load(res)
+def post_json(url, payload):
+    body=json.dumps(payload).encode()
+    req=Request(url, data=body, headers={"User-Agent": UA, "Accept": "application/json", "Content-Type": "application/json"})
     with urlopen(req, timeout=25) as res: return json.load(res)
 def fetch_text(url):
     req = Request(url, headers={"User-Agent": UA, "Accept": "application/rss+xml,text/xml,text/html"})
@@ -142,6 +146,27 @@ def ashby(entry):
         content=clean(x.get("descriptionHtml") or x.get("descriptionPlain")); j=normal(company=entry["company"],title=x.get("title"),location=x.get("location"),remote="Remoto" if x.get("isRemote") or "remote" in (content+str(x.get('location'))).lower() else "Não informado",published_at=iso_date(x.get("publishedAt")),source="Ashby",url=x.get("jobUrl"),apply_url=x.get("applyUrl") or x.get("jobUrl"),description=content,salary=json.dumps(x.get("compensation")) if x.get("compensation") else None)
         j["technologies"]=technologies(content); out.append(j)
     return out
+def jooble():
+    key=os.getenv("JOOBLE_API_KEY")
+    if not key: return []
+    out=[]
+    for query in ("desenvolvedor frontend", "React", "Next.js", "React Native", "TypeScript"):
+        data=post_json(f"https://jooble.org/api/{quote(key)}", {"keywords":query,"location":"Brasil","page":"1"})
+        for x in data.get("jobs", []):
+            description=clean(x.get("snippet")); j=normal(company=x.get("company"),title=x.get("title"),location=x.get("location") or "Brasil",remote="Remoto" if "remot" in description.lower() else "Não informado",published_at=iso_date(x.get("updated")),source="Jooble",url=x.get("link"),apply_url=x.get("link"),description=description,salary=x.get("salary"))
+            j["technologies"]=technologies(j["title"]+" "+description); out.append(j)
+    return out
+def adzuna():
+    app_id=os.getenv("ADZUNA_APP_ID"); app_key=os.getenv("ADZUNA_APP_KEY")
+    if not app_id or not app_key: return []
+    out=[]
+    for query in ("frontend", "React", "Next.js", "React Native", "TypeScript"):
+        url=f"https://api.adzuna.com/v1/api/jobs/br/search/1?app_id={quote(app_id)}&app_key={quote(app_key)}&what={quote(query)}&where=Brasil&results_per_page=50&sort_by=date"
+        data=fetch_json(url)
+        for x in data.get("results", []):
+            description=clean(x.get("description")); j=normal(company=(x.get("company") or {}).get("display_name"),title=x.get("title"),location=(x.get("location") or {}).get("display_name") or "Brasil",remote="Remoto" if "remot" in description.lower() else "Não informado",published_at=iso_date(x.get("created")),source="Adzuna",url=x.get("redirect_url"),apply_url=x.get("redirect_url"),description=description,salary=f"{x.get('salary_min') or ''}–{x.get('salary_max') or ''}".strip("–"))
+            j["technologies"]=technologies(j["title"]+" "+description); out.append(j)
+    return out
 
 def connect():
     DATA.mkdir(exist_ok=True); REPORTS.mkdir(exist_ok=True)
@@ -162,6 +187,8 @@ def upsert(db, job, run_at):
     return is_new
 def run():
     db=connect(); run_at=now(); sources=[("Remotive",remotive), ("Remote OK",remoteok), ("We Work Remotely",wwr)]
+    if os.getenv("JOOBLE_API_KEY"): sources.append(("Jooble",jooble))
+    if os.getenv("ADZUNA_APP_ID") and os.getenv("ADZUNA_APP_KEY"): sources.append(("Adzuna",adzuna))
     configured=load(CONFIG/"sources.json")
     sources += [(f"Greenhouse:{x['company']}",lambda x=x:greenhouse(x)) for x in configured.get("greenhouse",[])]
     sources += [(f"Lever:{x['company']}",lambda x=x:lever(x)) for x in configured.get("lever",[])]
