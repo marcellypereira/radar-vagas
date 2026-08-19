@@ -135,7 +135,7 @@ def ashby(entry):
     data=fetch_json(f"https://api.ashbyhq.com/posting-api/job-board/{quote(entry['board'])}?includeCompensation=true")
     out=[]
     for x in data.get("jobs",[]):
-        content=clean(x.get("descriptionHtml") or x.get("descriptionPlain")); j=normal(company=entry["company"],title=x.get("title"),location=x.get("location"),remote="Remoto" if "remote" in (content+str(x.get('location'))).lower() else "Não informado",published_at=iso_date(x.get("publishedAt")),source="Ashby",url=x.get("jobUrl"),apply_url=x.get("applyUrl") or x.get("jobUrl"),description=content,salary=json.dumps(x.get("compensation")) if x.get("compensation") else None)
+        content=clean(x.get("descriptionHtml") or x.get("descriptionPlain")); j=normal(company=entry["company"],title=x.get("title"),location=x.get("location"),remote="Remoto" if x.get("isRemote") or "remote" in (content+str(x.get('location'))).lower() else "Não informado",published_at=iso_date(x.get("publishedAt")),source="Ashby",url=x.get("jobUrl"),apply_url=x.get("applyUrl") or x.get("jobUrl"),description=content,salary=json.dumps(x.get("compensation")) if x.get("compensation") else None)
         j["technologies"]=technologies(content); out.append(j)
     return out
 
