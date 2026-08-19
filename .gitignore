@@ -1,4 +1,4 @@
-data/
-reports/
+/data/
+/reports/
 __pycache__/
 .vercel

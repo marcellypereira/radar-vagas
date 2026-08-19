@@ -1,1 +1,43 @@
-[]
+[
+  {
+    "id": "5ac0a74ee3a210ac527c",
+    "company": "Tempo",
+    "title": "Frontend Engineer (React Native)",
+    "seniority": null,
+    "location": "Brazil (Remote)",
+    "remote": "Remoto",
+    "published_at": "2025-09-23T14:14:09.274000+00:00",
+    "source": "Ashby:Tempo",
+    "url": "https://jobs.ashbyhq.com/tempo/55dd46d0-4492-4bd1-a627-e3f8b2cd0972",
+    "apply_url": "https://jobs.ashbyhq.com/tempo/55dd46d0-4492-4bd1-a627-e3f8b2cd0972/application",
+    "technologies": [
+      "React",
+      "React Native",
+      "Javascript",
+      "Tailwind"
+    ],
+    "requirements": "",
+    "differentials": "",
+    "english": "Não informado",
+    "employment_type": null,
+    "salary": "{\"compensationTierSummary\": \"$40K \\u2013 $60K \\u2022 The starting salary is fixed at $40,000 USD and non-negotiable. A performance review will be conducted after 30 days, with the opportunity for successful candidates to receive an increase based on demonstrated impact.\", \"scrapeableCompensationSalarySummary\": \"$40K - $60K\", \"compensationTiers\": [{\"id\": \"e5a21e68-b9bc-4ff9-843a-8d000df84da3\", \"tierSummary\": \"$40K \\u2013 $60K \\u2022 The starting salary is fixed at $40,000 USD and non-negotiable. A performance review will be conducted after 30 days, with the opportunity for successful candidates to receive an increase based on demonstrated impact.\", \"title\": null, \"additionalInformation\": \"The starting salary is fixed at $40,000 USD and non-negotiable. A performance review will be conducted after 30 days, with the opportunity for successful candidates to receive an increase based on demonstrated impact.\", \"components\": [{\"id\": \"b8e84154-b074-446f-a525-9f0b8e7cc225\", \"summary\": \"$40K \\u2013 $60K\", \"compensationType\": \"Salary\", \"interval\": \"1 YEAR\", \"currencyCode\": \"USD\", \"minValue\": 40000, \"maxValue\": 60000}]}], \"summaryComponents\": [{\"compensationType\": \"Salary\", \"interval\": \"1 YEAR\", \"currencyCode\": \"USD\", \"minValue\": 40000, \"maxValue\": 60000}]}",
+    "candidates": null,
+    "status": "open",
+    "application_status": "Não analisada",
+    "description": "Job Overview We’re specifically looking for someone with strong React Native experience, as mobile is a central focus of our roadmap. Familiarity with React for web is also important, as our platform spans both environments. You’ll collaborate with a cross-functional team of engineers, designers, and product leads to deliver seamless, high-performance applications that power modern product teams. Key Responsibilities Support Agent+ customers by building custom components, features, and workflows tailored to their product needs. Design and implement robust front-end solutions using our visual IDE, optimizing for performance and scalability. Work closely with UX/UI designers to translate design concepts into functional code. Contribute to the development lifecycle, including coding, testing, debugging, and deployment. Ensure high-quality graphic standards and brand consistency. Stay updated with emerging front-end technologies and methodologies, integrating them to enhance our platform's capabilities. Maintain an online presence between the hours of 9am - 4pm EST Qualifications Bachelor’s degree in Computer Science, Engineering, or a related field, or equivalent practical experience. Proven experience as a Front-End Developer or similar role, preferably in tech or startup environments. Expertise in front-end technologies, including JavaScript, CSS, HTML, and frameworks like React.js, and tailwind. Experience with responsive and adaptive design principles. Strong problem-solving skills and attention to detail. Excellent communication and teamwork skills, with a knack for bridging the gap between technical and non-technical teams. What We Offer The opportunity to be part of an innovative, fast-growing startup. A collaborative, flexible, and supportive work environment where your contributions directly impact the product's success.",
+    "compatibility": 64,
+    "strengths": [
+      "cargo alinhado a Front-end/React",
+      "React",
+      "React Native",
+      "Javascript"
+    ],
+    "gaps": [
+      "senioridade possivelmente acima do perfil"
+    ],
+    "first_seen_at": "2026-08-19T16:50:48+00:00",
+    "last_seen_at": "2026-08-19T16:50:48+00:00",
+    "discovered_at": "2026-08-19T16:50:48+00:00",
+    "source_run": "2026-08-19T16:50:48+00:00"
+  }
+]

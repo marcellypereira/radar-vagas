@@ -1,5 +1,7 @@
 {
   "greenhouse": [],
   "lever": [],
-  "ashby": []
+  "ashby": [
+    { "company": "Tempo", "board": "tempo" }
+  ]
 }
